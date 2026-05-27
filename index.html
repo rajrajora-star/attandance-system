@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attendance PRO FINAL</title>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+body{font-family:Arial;background:#f3f5f9;padding:15px;}
+.container{max-width:1000px;margin:auto;}
+
+.card{
+background:#fff;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+h1,h2{text-align:center;color:#1565c0;}
+
+button,input{
+width:100%;
+padding:10px;
+margin-top:8px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+background:#1565c0;
+color:#fff;
+border:none;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:center;
+}
+
+th{
+background:#1565c0;
+color:white;
+}
+
+.flex{
+display:flex;
+gap:5px;
+}
+
+.small{
+font-size:11px;
+padding:5px 6px;
+width:auto;
+}
+
+.empBtn{
+font-size:11px;
+padding:8px 10px;
+width:90px;
+border-radius:6px;
+}
+
+.green{background:green;}
+.red{background:red;}
+.orange{background:orange;}
+.dark{background:#444;}
+
+.hidden{display:none;}
+
+.pending{color:orange;font-weight:bold;}
+.rejected{color:red;font-weight:bold;}
+.present{color:green;font-weight:bold;}
+.absent{color:#b71c1c;font-weight:bold;}
+.notmarked{color:gray;font-weight:bold;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HOME -->
+<div class="card" id="home">
+<h1>Attendance System</h1>
+<button onclick="openEmp()">Employee</button>
+<button onclick="openAdmin()">Admin</button>
+</div>
+
+<!-- EMP LIST -->
+<div class="card hidden" id="empListPage">
+<h2>Employees</h2>
+<div id="empList"></div>
+<button onclick="back()">Back</button>
+</div>
+
+<!-- LOGIN -->
+<div class="card hidden" id="loginPage">
+<h2 id="empTitle"></h2>
+<input type="password" id="pass" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
+
+<!-- EMP PANEL -->
+<div class="card hidden" id="empPanel">
+<h2>Employee Panel</h2>
+<h3 id="welcome"></h3>
+
+<button onclick="mark()">Send Attendance</button>
+
+<table>
+<tr>
+<th>Date</th>
+<th>Day</th>
+<th>Time</th>
+<th>Status</th>
+</tr>
+
+<tbody id="empTable"></tbody>
+</table>
+
+<button onclick="back()">Logout</button>
+</div>
+
+<!-- ADMIN -->
+<div class="card hidden" id="admin">
+<h2>Admin Panel</h2>
+
+<div class="flex">
+<button class="small dark" onclick="download()">Excel</button>
+<button class="small red" onclick="clearToday()">Clear Today</button>
+</div>
+
+<h3>Add Employee</h3>
+
+<input id="n" placeholder="Name">
+<input id="p" placeholder="Password">
+
+<button onclick="add()">Add</button>
+
+<h3>Employees</h3>
+
+<div id="empManage"></div>
+
+<table>
+<tr>
+<th>Name</th>
+<th>Date</th>
+<th>Day</th>
+<th>Time</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+<tbody id="adminTable"></tbody>
+</table>
+
+<button onclick="back()">Logout</button>
+</div>
+
+</div>
+
+<script>
+
+/* FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyCa5KotNWHZZ-qmB5By1sgMYI3oD2gWksY",
+  authDomain: "attandance-register-17cec.firebaseapp.com",
+  databaseURL: "https://attandance-register-17cec-default-rtdb.firebaseio.com",
+  projectId: "attandance-register-17cec",
+  storageBucket: "attandance-register-17cec.firebasestorage.app",
+  messagingSenderId: "1035808155904",
+  appId: "1:1035808155904:web:c576565c9a533b8644abe5",
+  measurementId: "G-Q9VFCKQ6WM"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.database();
+
+let current = null;
+
+let employees = [];
+let requests = [];
+
+/* LIVE FIREBASE SYNC */
+
+db.ref("employees").on("value", snap => {
+
+employees = Object.values(snap.val() || {});
+
+renderEmpList();
+renderManage();
+renderAdmin();
+
+});
+
+db.ref("requests").on("value", snap => {
+
+requests = Object.values(snap.val() || {});
+
+if(current){
+renderEmp();
+}
+
+renderAdmin();
+
+});
+/* HIDE */
+function hide(){
+document.querySelectorAll(".card")
+.forEach(c=>c.classList.add("hidden"));
+}
+
+/* BACK */
+function back(){
+current = null;
+hide();
+document.getElementById("home")
+.classList.remove("hidden");
+}
+
+/* EMPLOYEE */
+function openEmp(){
+hide();
+
+document.getElementById("empListPage")
+.classList.remove("hidden");
+
+renderEmpList();
+}
+
+/* EMP LIST */
+function renderEmpList(){
+
+let h = "";
+
+employees.forEach(e=>{
+
+h += `
+<button class="empBtn"
+onclick="openLogin('${e.name}')">
+${e.name}
+</button>
+`;
+
+});
+
+document.getElementById("empList").innerHTML = h;
+}
+
+/* LOGIN */
+function openLogin(name){
+
+current = name;
+
+hide();
+
+document.getElementById("loginPage")
+.classList.remove("hidden");
+
+document.getElementById("empTitle")
+.innerText = name;
+}
+
+/* LOGIN CHECK */
+function login(){
+
+let p = document.getElementById("pass").value;
+
+let ok = employees.find(e=>
+e.name===current &&
+e.password===p
+);
+
+if(!ok){
+alert("Wrong Password");
+return;
+}
+
+hide();
+
+document.getElementById("empPanel")
+.classList.remove("hidden");
+
+document.getElementById("welcome")
+.innerText = "Welcome " + current;
+
+renderEmp();
+}
+
+/* SEND REQUEST */
+function mark(){
+
+let today = getDate();
+
+let existing = requests.find(r=>
+r.name===current &&
+r.date===today
+);
+
+if(existing){
+alert("Request already sent for today");
+return;
+}
+
+requests.push({
+id: Date.now(),
+name: current,
+date: today,
+day: getDay(),
+time: getTime(),
+status: "Pending"
+});
+
+db.ref("requests").set(requests);
+}
+
+/* EMP TABLE */
+function renderEmp(){
+
+let h = "";
+
+requests
+.filter(r=>r.name===current)
+.forEach(r=>{
+
+h += `
+<tr>
+<td>${r.date}</td>
+<td>${r.day}</td>
+<td>${r.time}</td>
+<td class="${r.status.toLowerCase()}">
+${r.status}
+</td>
+</tr>
+`;
+
+});
+
+document.getElementById("empTable").innerHTML = h;
+}
+
+/* ADMIN */
+function openAdmin(){
+
+let p = prompt("Admin Password?");
+
+if(p!=="1234") return;
+
+hide();
+
+document.getElementById("admin")
+.classList.remove("hidden");
+
+renderAdmin();
+renderManage();
+}
+
+/* ADMIN TABLE */
+function renderAdmin(){
+
+let h = "";
+
+employees.forEach(e=>{
+
+let r = requests.find(x=>
+x.name===e.name &&
+x.date===getDate()
+);
+
+h += `
+<tr>
+
+<td style="padding:10px;">
+${e.name}
+</td>
+
+<td>${r ? r.date : "-"}</td>
+
+<td>${r ? r.day : "-"}</td>
+
+<td>${r ? r.time : "-"}</td>
+
+<td class="${r ? r.status.toLowerCase() : 'notmarked'}">
+${r ? r.status : 'Not Marked'}
+</td>
+
+<td class="flex">
+
+<button class="small green"
+onclick="setStatus('${e.name}','Present')">
+Present
+</button>
+
+<button class="small orange"
+onclick="setStatus('${e.name}','Absent')">
+Absent
+</button>
+
+<button class="small green"
+onclick="setStatus('${e.name}','Accept')">
+Accept
+</button>
+
+<button class="small red"
+onclick="setStatus('${e.name}','Reject')">
+Reject
+</button>
+
+</td>
+
+</tr>
+`;
+
+});
+
+document.getElementById("adminTable").innerHTML = h;
+}
+
+/* STATUS */
+function setStatus(name,status){
+
+let r = requests.find(x =>
+x.name===name &&
+x.date===getDate()
+);
+
+if(!r){
+
+let finalStatus = status;
+
+if(status==="Accept"){
+finalStatus="Present";
+}
+
+if(status==="Reject"){
+finalStatus="Rejected";
+}
+
+requests.push({
+id: Date.now(),
+name: name,
+date: getDate(),
+day: getDay(),
+time: getTime(),
+status: finalStatus
+});
+
+}else{
+
+if(status==="Accept"){
+r.status="Present";
+}
+else if(status==="Reject"){
+r.status="Rejected";
+}
+else{
+r.status=status;
+}
+
+r.day=getDay();
+r.time=getTime();
+}
+
+/* FIREBASE UPDATE */
+db.ref("requests").set(requests);
+
+}
+
+/* ADD EMPLOYEE */
+function add(){
+
+if(!n.value || !p.value) return;
+
+employees.push({
+name:n.value,
+password:p.value
+});
+
+db.ref("employees").set(employees);
+
+n.value="";
+p.value="";
+}
+
+/* REMOVE */
+function remove(name){
+
+employees = employees.filter(e=>
+e.name!==name
+);
+
+requests = requests.filter(r=>
+r.name!==name
+);
+
+db.ref("employees").set(employees);
+db.ref("requests").set(requests);
+}
+
+/* MANAGE */
+function renderManage(){
+
+let h = "";
+
+employees.forEach(e=>{
+
+h += `
+<div class="flex">
+
+<button class="empBtn">
+${e.name}
+</button>
+
+<button class="small red"
+onclick="remove('${e.name}')">
+X
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("empManage").innerHTML = h;
+}
+
+/* CLEAR TODAY */
+function clearToday(){
+
+if(confirm("Clear today's data?")){
+
+let d = getDate();
+
+requests = requests.filter(r=>
+r.date!==d
+);
+
+db.ref("requests").set(requests);
+
+}
+
+}
+
+/* DOWNLOAD CSV */
+function download(){
+
+let d = getDate();
+
+let data = requests.filter(r=>
+r.date===d
+);
+
+let csv = "Name,Date,Day,Time,Status\n";
+
+data.forEach(r=>{
+
+csv += `${r.name},${r.date},${r.day},${r.time},${r.status}\n`;
+
+});
+
+let b = new Blob([csv],{
+type:"text/csv"
+});
+
+let u = URL.createObjectURL(b);
+
+let a = document.createElement("a");
+
+a.href = u;
+
+a.download = "attendance_"+d+".csv";
+
+a.click();
+}
+
+/* UTIL */
+function getDate(){
+
+let d = new Date();
+
+return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`;
+
+}
+
+function getDay(){
+
+return new Date()
+.toLocaleDateString('en-US',{
+weekday:'long'
+});
+
+}
+
+function getTime(){
+
+return new Date()
+.toLocaleTimeString();
+
+}
+
+back();
+
+</script>
+
+</body>
+</html>
