@@ -95,9 +95,39 @@ padding:6px;
     #empManage{
 display:flex;
 flex-wrap:wrap;
-gap:5px;
+gap:6px;
 align-items:center;
-    }
+}
+
+.empItem{
+display:inline-flex;
+align-items:center;
+gap:4px;
+white-space:nowrap;
+}
+
+.tableWrap{
+width:100%;
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+}
+
+.adminTable{
+min-width:720px;
+}
+
+@media(max-width:768px){
+.empBtn{
+width:auto;
+padding:6px 10px;
+font-size:11px;
+}
+
+.small{
+padding:4px 6px;
+font-size:10px;
+}
+}
 
   }
 
@@ -166,10 +196,6 @@ align-items:center;
 <div class="card hidden" id="admin">
 <h2>Admin Panel</h2>
 
-<div class="flex">
-<button class="small dark" onclick="download()">Excel</button>
-<button class="small red" onclick="clearToday()">Clear Today</button>
-</div>
 
 <h3>Add Employee</h3>
 
@@ -181,21 +207,14 @@ align-items:center;
 <h3>Employees</h3>
 
 <div id="empManage"></div>
-<div class="tableWrap">
-<table>
-</div>
-<table>
+  <div class="tableWrap">
+<table class="adminTable">
 <tr>
-<th>Name</th>
-<th>Date</th>
-<th>Day</th>
-<th>Time</th>
-<th>Status</th>
-<th>Action</th>
+<th>Name</th><th>Date</th><th>Day</th><th>Time</th><th>Status</th><th>Action</th>
 </tr>
-
 <tbody id="adminTable"></tbody>
 </table>
+</div>
 
 <button onclick="back()">Logout</button>
 </div>
@@ -542,32 +561,22 @@ db.ref("requests").set(requests);
 }
 
 /* MANAGE */
+
 function renderManage(){
 
-let h="";
+let h = "";
 
-employees.forEach(e=>{
-
-h+=`
-
-<button class="empBtn">
-${e.name}
-</button>
-
-<button
-class="small red"
-onclick="remove('${e.name}')">
-❌
-</button>
-
-`;
-
+employees.forEach(e => {
+h += `
+<span class="empItem">
+  <button class="empBtn">${e.name}</button>
+  <button class="small red" onclick="remove('${e.name}')">❌</button>
+</span>`;
 });
 
-document.getElementById("empManage").innerHTML=h;
+document.getElementById("empManage").innerHTML = h;
 
 }
-
 /* CLEAR TODAY */
 function clearToday(){
 
