@@ -220,6 +220,9 @@ font-size:16px;
 <h3 id="welcome"></h3>
 
 <button onclick="mark()">Send Attendance</button>
+  <button onclick="changePass()">
+Change Password
+  </button>
 
 <table>
 <tr>
@@ -703,6 +706,40 @@ return new Date()
 .toLocaleTimeString();
 
 }
+  function changePass(){
+
+let oldPass = prompt("Enter Old Password");
+
+let emp = employees.find(
+e => e.name === current
+);
+
+if(emp.password !== oldPass){
+
+alert("Wrong Old Password");
+
+return;
+
+}
+
+let newPass = prompt("Enter New Password");
+
+if(!newPass){
+
+alert("Password Empty");
+
+return;
+
+}
+
+emp.password = newPass;
+
+/* FIREBASE SAVE */
+db.ref("employees").set(employees);
+
+alert("Password Changed Successfully");
+
+  }
 
 back();
 
