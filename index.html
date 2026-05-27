@@ -43,7 +43,10 @@ width:100%;
 border-collapse:collapse;
 margin-top:10px;
 }
-
+.tableWrap{
+overflow-x:auto;
+width:100%;
+}
 th,td{
 border:1px solid #ddd;
 padding:8px;
@@ -57,12 +60,14 @@ color:white;
 
 .flex{
 display:flex;
-gap:5px;
+gap:3px;
+flex-wrap:wrap;
+justify-content:center;
 }
 
 .small{
-font-size:11px;
-padding:5px 6px;
+font-size:10px;
+padding:4px 5px;
 width:auto;
 }
 
@@ -72,6 +77,23 @@ padding:8px 10px;
 width:90px;
 border-radius:6px;
 }
+  @media(max-width:768px){
+
+table{
+font-size:12px;
+}
+
+th,td{
+padding:5px;
+}
+
+.empBtn{
+width:70px;
+font-size:10px;
+padding:6px;
+}
+
+  }
 
 .green{background:green;}
 .red{background:red;}
@@ -153,7 +175,9 @@ border-radius:6px;
 <h3>Employees</h3>
 
 <div id="empManage"></div>
-
+<div class="tableWrap">
+<table>
+</div>
 <table>
 <tr>
 <th>Name</th>
