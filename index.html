@@ -121,9 +121,21 @@ overflow-x:auto;
 }
 
 .adminTable{
-min-width:720px;
+width:100%;
+min-width:700px;
+border-collapse:collapse;
 }
 
+.card{
+overflow:hidden;
+}
+
+button,
+input{
+width:100%;
+max-width:100%;
+box-sizing:border-box;
+}
 @media(max-width:768px){
 .empBtn{
 width:auto;
@@ -146,7 +158,8 @@ overflow:hidden;
 width:100%;
 max-width:1000px;
 margin:auto;
-padding:5px;
+padding:10px;
+overflow:hidden;
 }
 
 @media(max-width:768px){
@@ -236,15 +249,25 @@ box-sizing:border-box;
 <h3>Employees</h3>
 
 <div id="empManage"></div>
+  
   <div class="tableWrap">
-<table class="adminTable">
-<tr>
-<th>Name</th><th>Date</th><th>Day</th><th>Time</th><th>Status</th><th>Action</th>
-</tr>
-<tbody id="adminTable"></tbody>
-</table>
-</div>
 
+<table class="adminTable">
+
+<tr>
+<th>Name</th>
+<th>Date</th>
+<th>Day</th>
+<th>Time</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+<tbody id="adminTable"></tbody>
+
+</table>
+
+</div>
 <button onclick="back()">Logout</button>
 </div>
 
