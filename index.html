@@ -92,6 +92,12 @@ width:70px;
 font-size:10px;
 padding:6px;
 }
+    #empManage{
+display:flex;
+flex-wrap:wrap;
+gap:5px;
+align-items:center;
+    }
 
   }
 
@@ -538,28 +544,28 @@ db.ref("requests").set(requests);
 /* MANAGE */
 function renderManage(){
 
-let h = "";
+let h="";
 
 employees.forEach(e=>{
 
-h += `
-<div class="flex">
+h+=`
 
 <button class="empBtn">
 ${e.name}
 </button>
 
-<button class="small red"
+<button
+class="small red"
 onclick="remove('${e.name}')">
-X
+❌
 </button>
 
-</div>
 `;
 
 });
 
-document.getElementById("empManage").innerHTML = h;
+document.getElementById("empManage").innerHTML=h;
+
 }
 
 /* CLEAR TODAY */
