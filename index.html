@@ -616,22 +616,42 @@ r.name!==name
 db.ref("employees").set(employees);
 db.ref("requests").set(requests);
 }
+function renderEmp(){
 
-/* MANAGE */
+let h="";
 
-function renderManage(){
+/* ONLY CURRENT EMPLOYEE */
+let empData = requests.filter(
+r => r.name === current
+);
 
-let h = "";
+/* NEWEST FIRST */
+empData.reverse();
+  empData = empData.slice(0,30);
 
-employees.forEach(e => {
-h += `
-<span class="empItem">
-  <button class="empBtn">${e.name}</button>
-  <button class="small red" onclick="remove('${e.name}')">❌</button>
-</span>`;
+empData.forEach(r=>{
+
+h+=`
+
+<tr>
+
+<td>${r.date}</td>
+
+<td>${r.day}</td>
+
+<td>${r.time}</td>
+
+<td class="${r.status.toLowerCase()}">
+${r.status}
+</td>
+
+</tr>
+
+`;
+
 });
 
-document.getElementById("empManage").innerHTML = h;
+document.getElementById("empTable").innerHTML = h;
 
 }
 /* CLEAR TODAY */
