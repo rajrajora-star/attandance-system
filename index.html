@@ -507,12 +507,16 @@ document.getElementById("empTitle")
 
 function login(){
 
-let p = document.getElementById("pass").value;
+let p =
+document.getElementById("pass").value;
 
-let ok = employees.find(e =>
+let ok = employees.find(
+e =>
 e.name === current &&
 e.password === p
 );
+
+/* WRONG PASSWORD */
 
 if(!ok){
 
@@ -522,6 +526,8 @@ return;
 
 }
 
+/* LOGIN SUCCESS */
+
 hide();
 
 document.getElementById("empPanel")
@@ -529,6 +535,10 @@ document.getElementById("empPanel")
 
 document.getElementById("welcome")
 .innerText = "Welcome " + current;
+
+/* CLEAR PASSWORD BOX */
+
+document.getElementById("pass").value = "";
 
 renderEmp();
 
@@ -628,7 +638,10 @@ document.getElementById("adminLoginBox")
 
 function checkAdmin(){
 
-let p = document.getElementById("adminPass").value;
+let p =
+document.getElementById("adminPass").value;
+
+/* WRONG PASSWORD */
 
 if(p !== "1234"){
 
@@ -638,10 +651,17 @@ return;
 
 }
 
-hide();
+/* LOGIN SUCCESS */
+
+document.getElementById("adminLoginBox")
+.classList.add("hidden");
 
 document.getElementById("admin")
 .classList.remove("hidden");
+
+/* CLEAR PASSWORD */
+
+document.getElementById("adminPass").value = "";
 
 renderAdmin();
 
@@ -878,19 +898,25 @@ let emp = employees.find(
 e => e.name === current
 );
 
-let oldP = document.getElementById("oldPass").value;
+let oldPass =
+document.getElementById("oldPass").value;
 
-let newP = document.getElementById("newPass").value;
+let newPass =
+document.getElementById("newPass").value;
 
-if(emp.password !== oldP){
+/* WRONG PASSWORD */
 
-alert("Wrong Old Password");
+if(emp.password !== oldPass){
+
+alert("Wrong Password");
 
 return;
 
 }
 
-if(!newP){
+/* EMPTY PASSWORD */
+
+if(!newPass){
 
 alert("Enter New Password");
 
@@ -898,18 +924,24 @@ return;
 
 }
 
-emp.password = newP;
+/* UPDATE PASSWORD */
+
+emp.password = newPass;
 
 db.ref("employees").set(employees);
 
-alert("Password Changed Successfully");
+alert("Password Updated Successfully");
+
+/* CLEAR INPUTS */
 
 document.getElementById("oldPass").value = "";
 
 document.getElementById("newPass").value = "";
 
-}
+document.getElementById("passBox")
+.classList.add("hidden");
 
+}
 /* CLEAR TODAY */
 function clearToday(){
 
