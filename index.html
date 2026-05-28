@@ -159,7 +159,46 @@ font-size:12px;
 th,td{
 padding:5px;
 }
+#msgBox{
 
+position:fixed;
+
+top:20px;
+left:50%;
+
+transform:translateX(-50%);
+
+background:#1565c0;
+
+color:white;
+
+padding:12px 20px;
+
+border-radius:10px;
+
+z-index:9999;
+
+font-size:16px;
+
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+
+animation:fadeIn 0.3s;
+
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+top:0;
+}
+
+to{
+opacity:1;
+top:20px;
+}
+
+}
 .empBtn{
 width:auto;
 font-size:10px;
@@ -186,6 +225,10 @@ box-sizing:border-box;
 </head>
 
 <body>
+
+  <div id="msgBox" class="hidden">
+  <div id="msgText"></div>
+</div>
 
 <div class="container">
 
@@ -908,7 +951,7 @@ document.getElementById("newPass").value;
 
 if(emp.password !== oldPass){
 
-alert("Wrong Password");
+showMsg("Wrong Password");
 
 return;
 
@@ -918,7 +961,7 @@ return;
 
 if(!newPass){
 
-alert("Enter New Password");
+shoeMsg("Enter New Password");
 
 return;
 
@@ -930,7 +973,7 @@ emp.password = newPass;
 
 db.ref("employees").set(employees);
 
-alert("Password Updated Successfully");
+showMsg("Password Updated Successfully");
 
 /* CLEAR INPUTS */
 
@@ -1010,6 +1053,26 @@ document.body.removeChild(a);
 }
 
 }
+
+  function showMsg(text){
+
+let box =
+document.getElementById("msgBox");
+
+let txt =
+document.getElementById("msgText");
+
+txt.innerText = text;
+
+box.classList.remove("hidden");
+
+setTimeout(()=>{
+
+box.classList.add("hidden");
+
+},2000);
+
+  }
   /* UTIL */
 
 function getDate(){
