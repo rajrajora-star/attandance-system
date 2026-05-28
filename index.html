@@ -913,12 +913,6 @@ document.getElementById("newPass").value = "";
 /* CLEAR TODAY */
 function clearToday(){
 
-let ok = window.confirm(
-"Clear today's data?"
-);
-
-if(!ok) return;
-
 let d = getDate();
 
 requests = requests.filter(
@@ -936,8 +930,8 @@ function download(){
 
 let d = getDate();
 
-let data = requests.filter(r =>
-r.date === d
+let data = requests.filter(
+r => r.date === d
 );
 
 let csv =
