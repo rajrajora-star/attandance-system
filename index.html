@@ -911,25 +911,27 @@ document.getElementById("newPass").value = "";
 }
 
 /* CLEAR TODAY */
-
 function clearToday(){
 
-if(confirm("Clear today's data?")){
+let ok = window.confirm(
+"Clear today's data?"
+);
+
+if(!ok) return;
 
 let d = getDate();
 
-requests = requests.filter(r =>
-r.date !== d
+requests = requests.filter(
+r => r.date !== d
 );
 
 db.ref("requests").set(requests);
 
-}
+alert("Today's Data Cleared");
 
 }
 
 /* DOWNLOAD CSV */
-
 function download(){
 
 let d = getDate();
@@ -938,31 +940,36 @@ let data = requests.filter(r =>
 r.date === d
 );
 
-let csv = "Name,Date,Day,Time,Status\n";
+let csv =
+"Name,Date,Day,Time,Status\n";
 
 data.forEach(r => {
 
-csv += `${r.name},${r.date},${r.day},${r.time},${r.status}\n`;
+csv +=
+`${r.name},${r.date},${r.day},${r.time},${r.status}\n`;
 
 });
 
-let b = new Blob([csv],{
-type:"text/csv"
-});
+let encodedUri =
+"data:text/csv;charset=utf-8," +
+encodeURIComponent(csv);
 
-let u = URL.createObjectURL(b);
+let a =
+document.createElement("a");
 
-let a = document.createElement("a");
+a.href = encodedUri;
 
-a.href = u;
+a.download =
+"attendance_" + d + ".csv";
 
-a.download = "attendance_"+d+".csv";
+document.body.appendChild(a);
 
 a.click();
 
-}
+document.body.removeChild(a);
 
-/* UTIL */
+}
+  /* UTIL */
 
 function getDate(){
 
