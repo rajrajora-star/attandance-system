@@ -944,6 +944,19 @@ csv +=
 
 });
 
+/* ANDROID APP DOWNLOAD */
+
+if(window.Android){
+
+Android.saveCsv(
+csv,
+"attendance_" + d + ".csv"
+);
+
+}else{
+
+/* PC DOWNLOAD */
+
 let encodedUri =
 "data:text/csv;charset=utf-8," +
 encodeURIComponent(csv);
@@ -961,6 +974,8 @@ document.body.appendChild(a);
 a.click();
 
 document.body.removeChild(a);
+
+}
 
 }
   /* UTIL */
