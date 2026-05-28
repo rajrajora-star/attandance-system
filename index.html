@@ -491,9 +491,11 @@ document.getElementById("empTable").innerHTML = h;
 function openAdmin(){
     hide();
 
+    // SHOW ADMIN MAIN PANEL
     document.getElementById("admin")
     .classList.remove("hidden");
 
+    // SHOW LOGIN BOX
     document.getElementById("adminLoginBox")
     .classList.remove("hidden");
 }
@@ -506,13 +508,13 @@ function checkAdmin(){
         return;
     }
 
-    document.getElementById("adminLoginBox")
-    .classList.add("hidden");
+    document.getElementById("adminLoginBox").classList.add("hidden");
 
     document.getElementById("admin")
     .classList.remove("hidden");
 
     renderAdmin();
+    renderManage();
 }
 /* ADMIN TABLE */
 function renderAdmin(){
