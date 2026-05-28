@@ -120,6 +120,9 @@ width:100%;
 overflow-x:auto;
 -webkit-overflow-scrolling:touch;
 }
+    input {
+      outline: none;
+    }
 
 .adminTable{
 width:100%;
@@ -244,6 +247,16 @@ Change Password
 <div class="card hidden" id="admin">
 <h2>Admin Panel</h2>
 <div class="flex">
+<div id="adminLoginBox" class="card hidden">
+    <h2>Admin Login</h2>
+
+    <input type="password"
+           id="adminPass"
+           placeholder="Enter Admin Password"
+           autocomplete="off">
+
+    <button onclick="checkAdmin()">Login</button>
+</div>
 
 <button
 class="small dark"
@@ -477,17 +490,28 @@ document.getElementById("empTable").innerHTML = h;
 /* ADMIN */
 function openAdmin(){
 
-let p = prompt("Admin Password?");
+    hide();
 
-if(p!=="1234") return;
+    document.getElementById("adminLoginBox")
+    .classList.remove("hidden");
+}
+  function checkAdmin(){
 
-hide();
+    let p = document.getElementById("adminPass").value;
 
-document.getElementById("admin")
-.classList.remove("hidden");
+    if(p !== "1234"){
+        alert("Wrong Password");
+        return;
+    }
 
-renderAdmin();
-renderManage();
+    document.getElementById("adminLoginBox")
+    .classList.add("hidden");
+
+    document.getElementById("admin")
+    .classList.remove("hidden");
+
+    renderAdmin();
+    renderManage();
 }
 
 /* ADMIN TABLE */
