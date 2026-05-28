@@ -489,13 +489,15 @@ document.getElementById("empTable").innerHTML = h;
 
 /* ADMIN */
 function openAdmin(){
-
     hide();
+
+    document.getElementById("admin")
+    .classList.remove("hidden");
 
     document.getElementById("adminLoginBox")
     .classList.remove("hidden");
 }
-  function checkAdmin(){
+function checkAdmin(){
 
     let p = document.getElementById("adminPass").value;
 
@@ -511,9 +513,7 @@ function openAdmin(){
     .classList.remove("hidden");
 
     renderAdmin();
-    renderManage();
 }
-
 /* ADMIN TABLE */
 function renderAdmin(){
 
