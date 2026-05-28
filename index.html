@@ -1,4 +1,4 @@
-ji<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -1017,18 +1017,18 @@ csv +=
 
 if(window.Android){
 
+showMsg("Excel Downloading...");
+
+setTimeout(()=>{
+
 Android.saveCsv(
 csv,
 "attendance_" + d + ".csv"
 );
 
-setTimeout(()=>{
+},300);
 
-showMsg("Excel Downloaded Successfully");
-
-},500);
-
-}else{
+}
 
 /* PC BROWSER */
 
