@@ -245,11 +245,14 @@ Change Password
 
 <!-- ADMIN -->
 <div class="card hidden" id="admin">
+  
 <h2>Admin Panel</h2>
+  
 <div class="flex">
-<div id="adminLoginBox" class="card hidden">
+<div id="adminLoginBox" class="card ">
+  
     <h2>Admin Login</h2>
-
+  
     <input type="password"
            id="adminPass"
            placeholder="Enter Admin Password"
@@ -491,14 +494,15 @@ document.getElementById("empTable").innerHTML = h;
 function openAdmin(){
     hide();
 
-    // SHOW ADMIN MAIN PANEL
+    // ONLY SHOW LOGIN BOX, NOT FULL ADMIN PANEL
     document.getElementById("admin")
     .classList.remove("hidden");
 
-    // SHOW LOGIN BOX
     document.getElementById("adminLoginBox")
     .classList.remove("hidden");
 }
+
+  
 function checkAdmin(){
 
     let p = document.getElementById("adminPass").value;
@@ -508,14 +512,18 @@ function checkAdmin(){
         return;
     }
 
+    // hide login box
     document.getElementById("adminLoginBox").classList.add("hidden");
 
-    document.getElementById("admin")
-    .classList.remove("hidden");
+    // IMPORTANT: only now show admin content properly
+    document.getElementById("admin").classList.remove("hidden");
 
+    // render data
     renderAdmin();
     renderManage();
 }
+
+  
 /* ADMIN TABLE */
 function renderAdmin(){
 
