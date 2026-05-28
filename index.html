@@ -993,7 +993,6 @@ showMsg("Today's Data Cleared");
 
 /* DOWNLOAD CSV */
 
-/* DOWNLOAD CSV */
 
 function download(){
 
@@ -1028,7 +1027,7 @@ csv,
 
 },300);
 
-}
+}else{
 
 /* PC BROWSER */
 
@@ -1050,16 +1049,11 @@ a.click();
 
 document.body.removeChild(a);
 
-setTimeout(()=>{
-
 showMsg("Excel Downloaded Successfully");
 
-},500);
-
 }
 
 }
-
   function showMsg(text){
 
 let box =
