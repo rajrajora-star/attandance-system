@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ji<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -992,6 +992,9 @@ showMsg("Today's Data Cleared");
 }
 
 /* DOWNLOAD CSV */
+
+/* DOWNLOAD CSV */
+
 function download(){
 
 let d = getDate();
@@ -1010,38 +1013,7 @@ csv +=
 
 });
 
-/* MESSAGE FIRST */
-
-showMsg("Excel Download Started");
-
-/* ANDROID + PC DOWNLOAD */
-
-let blob = new Blob([csv], {
-type: "text/csv"
-});
-
-let url = URL.createObjectURL(blob);
-
-let a = document.createElement("a");
-
-a.href = url;
-
-a.download =
-"attendance_" + d + ".csv";
-
-document.body.appendChild(a);
-
-a.click();
-
-document.body.removeChild(a);
-
-URL.revokeObjectURL(url);
-
-}
-
-/* ANDROID APP DOWNLOAD */
-
-/* ANDROID APP DOWNLOAD */
+/* ANDROID APK */
 
 if(window.Android){
 
@@ -1050,11 +1022,15 @@ csv,
 "attendance_" + d + ".csv"
 );
 
+setTimeout(()=>{
+
 showMsg("Excel Downloaded Successfully");
+
+},500);
 
 }else{
 
-/* PC DOWNLOAD */
+/* PC BROWSER */
 
 let encodedUri =
 "data:text/csv;charset=utf-8," +
@@ -1074,7 +1050,13 @@ a.click();
 
 document.body.removeChild(a);
 
+setTimeout(()=>{
+
 showMsg("Excel Downloaded Successfully");
+
+},500);
+
+}
 
 }
 
