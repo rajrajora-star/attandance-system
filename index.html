@@ -992,8 +992,7 @@ showMsg("Today's Data Cleared");
 }
 
 /* DOWNLOAD CSV */
-
-function download(){
+  function download(){
 
 let d = getDate();
 
@@ -1005,21 +1004,8 @@ data.forEach(r=>{
 csv += `${r.name},${r.date},${r.day},${r.time},${r.status}\n`;
 });
 
-/* ANDROID APK */
-if(window.Android && Android.saveCsv){
-
-Android.saveCsv(csv, "attendance_" + d + ".csv");
-
-setTimeout(()=>{
-showMsg("Downloading...");
-},100);
-
-}
-
-/* PC + MOBILE BROWSER */
-else{
-
-let blob = new Blob([csv],{type:"text/csv"});
+/* 1️⃣ ALWAYS WORKING BROWSER DOWNLOAD */
+let blob = new Blob([csv], {type:"text/csv"});
 let url = URL.createObjectURL(blob);
 
 let a = document.createElement("a");
@@ -1032,12 +1018,17 @@ document.body.removeChild(a);
 
 URL.revokeObjectURL(url);
 
-showMsg("Excel Downloaded");
+/* 2️⃣ OPTIONAL APK SUPPORT (NON-BLOCKING) */
+setTimeout(()=>{
+if(window.Android && typeof Android.saveCsv === "function"){
+Android.saveCsv(csv, "attendance_" + d + ".csv");
+}
+},200);
+
+/* 3️⃣ MESSAGE */
+showMsg("Download Successful");
 
 }
-
-}
-
   function showMsg(text){
 
 let box =
