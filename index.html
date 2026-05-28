@@ -11,8 +11,17 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <style>
-body{font-family:Arial;background:#f3f5f9;padding:15px;}
-.container{max-width:1000px;margin:auto;}
+
+body{
+font-family:Arial;
+background:#f3f5f9;
+padding:15px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
 
 .card{
 background:#fff;
@@ -20,24 +29,23 @@ padding:15px;
 border-radius:10px;
 margin-bottom:15px;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
+overflow:hidden;
 }
 
-h1,h2{text-align:center;color:#1565c0;}
+h1,h2{
+text-align:center;
+color:#1565c0;
+}
 
 button,
 input{
-
 width:100%;
 max-width:100%;
-
 padding:10px;
 margin-top:8px;
-
 border-radius:6px;
 border:1px solid #ccc;
-
 box-sizing:border-box;
-
 }
 
 button{
@@ -52,10 +60,13 @@ width:100%;
 border-collapse:collapse;
 margin-top:10px;
 }
+
 .tableWrap{
 overflow-x:auto;
 width:100%;
+-webkit-overflow-scrolling:touch;
 }
+
 th,td{
 border:1px solid #ddd;
 padding:8px;
@@ -86,22 +97,8 @@ padding:8px 10px;
 width:90px;
 border-radius:6px;
 }
-  @media(max-width:768px){
 
-table{
-font-size:12px;
-}
-
-th,td{
-padding:5px;
-}
-
-.empBtn{
-width:70px;
-font-size:10px;
-padding:6px;
-}
-    #empManage{
+#empManage{
 display:flex;
 flex-wrap:wrap;
 gap:6px;
@@ -115,69 +112,11 @@ gap:4px;
 white-space:nowrap;
 }
 
-.tableWrap{
-width:100%;
-overflow-x:auto;
--webkit-overflow-scrolling:touch;
-}
-    input {
-      outline: none;
-    }
-
 .adminTable{
 width:100%;
 min-width:700px;
 border-collapse:collapse;
 }
-
-.card{
-overflow:hidden;
-}
-
-button,
-input{
-width:100%;
-max-width:100%;
-box-sizing:border-box;
-}
-@media(max-width:768px){
-.empBtn{
-width:auto;
-padding:6px 10px;
-font-size:11px;
-}
-
-.small{
-padding:4px 6px;
-font-size:10px;
-}
-}
-
-  }
-  .card{
-overflow:hidden;
-}
-
-.container{
-width:100%;
-max-width:1000px;
-margin:auto;
-padding:10px;
-overflow:hidden;
-}
-  *{ box-sizing:border-box; }
-
-@media(max-width:768px){
-
-input,
-button{
-font-size:16px;
-}
-
-}
-
-
-  
 
 .green{background:green;}
 .red{background:red;}
@@ -186,50 +125,152 @@ font-size:16px;
 
 .hidden{display:none;}
 
-.pending{color:orange;font-weight:bold;}
-.rejected{color:red;font-weight:bold;}
-.present{color:green;font-weight:bold;}
-.absent{color:#b71c1c;font-weight:bold;}
-.notmarked{color:gray;font-weight:bold;}
+.pending{
+color:orange;
+font-weight:bold;
+}
+
+.rejected{
+color:red;
+font-weight:bold;
+}
+
+.present{
+color:green;
+font-weight:bold;
+}
+
+.absent{
+color:#b71c1c;
+font-weight:bold;
+}
+
+.notmarked{
+color:gray;
+font-weight:bold;
+}
+
+@media(max-width:768px){
+
+table{
+font-size:12px;
+}
+
+th,td{
+padding:5px;
+}
+
+.empBtn{
+width:auto;
+font-size:10px;
+padding:6px;
+}
+
+.small{
+padding:4px 6px;
+font-size:10px;
+}
+
+input,
+button{
+font-size:16px;
+}
+
+}
+
+*{
+box-sizing:border-box;
+}
+
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
 <!-- HOME -->
 <div class="card" id="home">
+
 <h1>Attendance System</h1>
-<button onclick="openEmp()">Employee</button>
-<button onclick="openAdmin()">Admin</button>
+
+<button onclick="openEmp()">
+Employee
+</button>
+
+<button onclick="showAdminLogin()">
+Admin
+</button>
+
 </div>
 
-<!-- EMP LIST -->
+<!-- EMPLOYEE LIST -->
 <div class="card hidden" id="empListPage">
+
 <h2>Employees</h2>
+
 <div id="empList"></div>
-<button onclick="back()">Back</button>
+
+<button onclick="back()">
+Back
+</button>
+
 </div>
 
-<!-- LOGIN -->
+<!-- EMPLOYEE LOGIN -->
 <div class="card hidden" id="loginPage">
+
 <h2 id="empTitle"></h2>
-<input type="password" id="pass" placeholder="Password">
-<button onclick="login()">Login</button>
+
+<input
+type="password"
+id="pass"
+placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+
 </div>
 
-<!-- EMP PANEL -->
+<!-- EMPLOYEE PANEL -->
 <div class="card hidden" id="empPanel">
+
 <h2>Employee Panel</h2>
+
 <h3 id="welcome"></h3>
 
-<button onclick="mark()">Send Attendance</button>
+<button onclick="mark()">
+Send Attendance
+</button>
 
-<button onclick="changePass()">
+<!-- CHANGE PASSWORD -->
+<div id="passBox" class="hidden">
+
+<h3>Change Password</h3>
+
+<input
+type="password"
+id="oldPass"
+placeholder="Old Password">
+
+<input
+type="password"
+id="newPass"
+placeholder="New Password">
+
+<button onclick="updatePass()">
+Update
+</button>
+
+</div>
+
+<button onclick="showPassBox()">
 Change Password
 </button>
 
 <table>
+
 <tr>
 <th>Date</th>
 <th>Day</th>
@@ -238,28 +279,37 @@ Change Password
 </tr>
 
 <tbody id="empTable"></tbody>
+
 </table>
 
-<button onclick="back()">Logout</button>
+<button onclick="back()">
+Logout
+</button>
+
 </div>
 
-<!-- ADMIN -->
+<!-- ADMIN LOGIN -->
+<div class="card hidden" id="adminLoginBox">
+
+<h2>Admin Login</h2>
+
+<input
+type="password"
+id="adminPass"
+placeholder="Enter Admin Password">
+
+<button onclick="checkAdmin()">
+Login
+</button>
+
+</div>
+
+<!-- ADMIN PANEL -->
 <div class="card hidden" id="admin">
-  
-<h2>Admin Panel</h2>
-  
-<div class="flex">
-<div id="adminLoginBox" class="card ">
-  
-    <h2>Admin Login</h2>
-  
-    <input type="password"
-           id="adminPass"
-           placeholder="Enter Admin Password"
-           autocomplete="off">
 
-    <button onclick="checkAdmin()">Login</button>
-</div>
+<h2>Admin Panel</h2>
+
+<div class="flex">
 
 <button
 class="small dark"
@@ -278,25 +328,30 @@ Clear Today
 <h3>Add Employee</h3>
 
 <input id="n" placeholder="Name">
+
 <input id="p" placeholder="Password">
 
-<button onclick="add()">Add</button>
+<button onclick="add()">
+Add
+</button>
 
 <h3>Employees</h3>
 
 <div id="empManage"></div>
-  
-  <div class="tableWrap">
+
+<div class="tableWrap">
 
 <table class="adminTable">
 
 <tr>
+
 <th>Name</th>
 <th>Date</th>
 <th>Day</th>
 <th>Time</th>
 <th>Status</th>
 <th>Action</th>
+
 </tr>
 
 <tbody id="adminTable"></tbody>
@@ -304,7 +359,11 @@ Clear Today
 </table>
 
 </div>
-<button onclick="back()">Logout</button>
+
+<button onclick="back()">
+Logout
+</button>
+
 </div>
 
 </div>
@@ -312,15 +371,25 @@ Clear Today
 <script>
 
 /* FIREBASE CONFIG */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCa5KotNWHZZ-qmB5By1sgMYI3oD2gWksY",
-  authDomain: "attandance-register-17cec.firebaseapp.com",
-  databaseURL: "https://attandance-register-17cec-default-rtdb.firebaseio.com",
-  projectId: "attandance-register-17cec",
-  storageBucket: "attandance-register-17cec.firebasestorage.app",
-  messagingSenderId: "1035808155904",
-  appId: "1:1035808155904:web:c576565c9a533b8644abe5",
-  measurementId: "G-Q9VFCKQ6WM"
+
+apiKey: "AIzaSyCa5KotNWHZZ-qmB5By1sgMYI3oD2gWksY",
+
+authDomain: "attandance-register-17cec.firebaseapp.com",
+
+databaseURL: "https://attandance-register-17cec-default-rtdb.firebaseio.com",
+
+projectId: "attandance-register-17cec",
+
+storageBucket: "attandance-register-17cec.firebasestorage.app",
+
+messagingSenderId: "1035808155904",
+
+appId: "1:1035808155904:web:c576565c9a533b8644abe5",
+
+measurementId: "G-Q9VFCKQ6WM"
+
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -330,16 +399,19 @@ const db = firebase.database();
 let current = null;
 
 let employees = [];
+
 let requests = [];
 
-/* LIVE FIREBASE SYNC */
+/* LIVE SYNC */
 
 db.ref("employees").on("value", snap => {
 
 employees = Object.values(snap.val() || {});
 
 renderEmpList();
+
 renderManage();
+
 renderAdmin();
 
 });
@@ -355,50 +427,68 @@ renderEmp();
 renderAdmin();
 
 });
+
 /* HIDE */
+
 function hide(){
+
 document.querySelectorAll(".card")
-.forEach(c=>c.classList.add("hidden"));
+.forEach(c => c.classList.add("hidden"));
+
 }
 
 /* BACK */
+
 function back(){
+
 current = null;
+
 hide();
+
 document.getElementById("home")
 .classList.remove("hidden");
+
 }
 
 /* EMPLOYEE */
+
 function openEmp(){
+
 hide();
 
 document.getElementById("empListPage")
 .classList.remove("hidden");
 
 renderEmpList();
+
 }
 
-/* EMP LIST */
+/* EMPLOYEE LIST */
+
 function renderEmpList(){
 
 let h = "";
 
-employees.forEach(e=>{
+employees.forEach(e => {
 
 h += `
-<button class="empBtn"
+<button
+class="empBtn"
 onclick="openLogin('${e.name}')">
+
 ${e.name}
+
 </button>
 `;
 
 });
 
 document.getElementById("empList").innerHTML = h;
+
 }
 
-/* LOGIN */
+/* OPEN LOGIN */
+
 function openLogin(name){
 
 current = name;
@@ -410,21 +500,26 @@ document.getElementById("loginPage")
 
 document.getElementById("empTitle")
 .innerText = name;
+
 }
 
-/* LOGIN CHECK */
+/* LOGIN */
+
 function login(){
 
 let p = document.getElementById("pass").value;
 
-let ok = employees.find(e=>
-e.name===current &&
-e.password===p
+let ok = employees.find(e =>
+e.name === current &&
+e.password === p
 );
 
 if(!ok){
+
 alert("Wrong Password");
+
 return;
+
 }
 
 hide();
@@ -436,111 +531,145 @@ document.getElementById("welcome")
 .innerText = "Welcome " + current;
 
 renderEmp();
+
 }
 
-/* SEND REQUEST */
+/* SEND ATTENDANCE */
+
 function mark(){
 
 let today = getDate();
 
-let existing = requests.find(r=>
-r.name===current &&
-r.date===today
+let existing = requests.find(r =>
+r.name === current &&
+r.date === today
 );
 
 if(existing){
+
 alert("Request already sent for today");
+
 return;
+
 }
 
 requests.push({
+
 id: Date.now(),
+
 name: current,
+
 date: today,
+
 day: getDay(),
+
 time: getTime(),
+
 status: "Pending"
+
 });
 
 db.ref("requests").set(requests);
+
 }
 
-/* EMP TABLE */
+/* EMPLOYEE TABLE */
+
 function renderEmp(){
 
 let h = "";
 
-requests
-.filter(r=>r.name===current)
-.forEach(r=>{
+let empData = requests.filter(
+r => r.name === current
+);
+
+empData.reverse();
+
+empData = empData.slice(0,30);
+
+empData.forEach(r => {
 
 h += `
+
 <tr>
+
 <td>${r.date}</td>
+
 <td>${r.day}</td>
+
 <td>${r.time}</td>
+
 <td class="${r.status.toLowerCase()}">
+
 ${r.status}
+
 </td>
+
 </tr>
+
 `;
 
 });
 
 document.getElementById("empTable").innerHTML = h;
+
 }
 
-/* ADMIN */
-function openAdmin(){
-    hide();
+/* ADMIN LOGIN */
 
-    // ONLY SHOW LOGIN BOX, NOT FULL ADMIN PANEL
-    document.getElementById("admin")
-    .classList.remove("hidden");
+function showAdminLogin(){
 
-    document.getElementById("adminLoginBox")
-    .classList.remove("hidden");
+hide();
+
+document.getElementById("adminLoginBox")
+.classList.remove("hidden");
+
 }
 
-  
 function checkAdmin(){
 
-    let p = document.getElementById("adminPass").value;
+let p = document.getElementById("adminPass").value;
 
-    if(p !== "1234"){
-        alert("Wrong Password");
-        return;
-    }
+if(p !== "1234"){
 
-    // hide login box
-    document.getElementById("adminLoginBox").classList.add("hidden");
+alert("Wrong Password");
 
-    // IMPORTANT: only now show admin content properly
-    document.getElementById("admin").classList.remove("hidden");
+return;
 
-    // render data
-    renderAdmin();
-    renderManage();
 }
 
-  
+hide();
+
+document.getElementById("admin")
+.classList.remove("hidden");
+
+renderAdmin();
+
+renderManage();
+
+}
+
 /* ADMIN TABLE */
+
 function renderAdmin(){
 
 let h = "";
 
-employees.forEach(e=>{
+employees.forEach(e => {
 
-let r = requests.find(x=>
-x.name===e.name &&
-x.date===getDate()
+let r = requests.find(x =>
+x.name === e.name &&
+x.date === getDate()
 );
 
 h += `
+
 <tr>
 
 <td style="padding:10px;">
+
 ${e.name}
+
 </td>
 
 <td>${r ? r.date : "-"}</td>
@@ -550,168 +679,247 @@ ${e.name}
 <td>${r ? r.time : "-"}</td>
 
 <td class="${r ? r.status.toLowerCase() : 'notmarked'}">
+
 ${r ? r.status : 'Not Marked'}
+
 </td>
 
 <td class="flex">
 
-<button class="small green"
+<button
+class="small green"
 onclick="setStatus('${e.name}','Present')">
+
 Present
+
 </button>
 
-<button class="small orange"
+<button
+class="small orange"
 onclick="setStatus('${e.name}','Absent')">
+
 Absent
+
 </button>
 
-<button class="small green"
+<button
+class="small green"
 onclick="setStatus('${e.name}','Accept')">
+
 Accept
+
 </button>
 
-<button class="small red"
+<button
+class="small red"
 onclick="setStatus('${e.name}','Reject')">
+
 Reject
+
 </button>
 
 </td>
 
 </tr>
+
 `;
 
 });
 
 document.getElementById("adminTable").innerHTML = h;
+
 }
 
 /* STATUS */
+
 function setStatus(name,status){
 
 let r = requests.find(x =>
-x.name===name &&
-x.date===getDate()
+x.name === name &&
+x.date === getDate()
 );
 
 if(!r){
 
 let finalStatus = status;
 
-if(status==="Accept"){
-finalStatus="Present";
+if(status === "Accept"){
+finalStatus = "Present";
 }
 
-if(status==="Reject"){
-finalStatus="Rejected";
+if(status === "Reject"){
+finalStatus = "Rejected";
 }
 
 requests.push({
+
 id: Date.now(),
+
 name: name,
+
 date: getDate(),
+
 day: getDay(),
+
 time: getTime(),
+
 status: finalStatus
+
 });
 
 }else{
 
-if(status==="Accept"){
-r.status="Present";
+if(status === "Accept"){
+r.status = "Present";
 }
-else if(status==="Reject"){
-r.status="Rejected";
+else if(status === "Reject"){
+r.status = "Rejected";
 }
 else{
-r.status=status;
+r.status = status;
 }
 
-r.day=getDay();
-r.time=getTime();
+r.day = getDay();
+
+r.time = getTime();
+
 }
 
-/* FIREBASE UPDATE */
 db.ref("requests").set(requests);
 
 }
 
 /* ADD EMPLOYEE */
+
 function add(){
 
 if(!n.value || !p.value) return;
 
 employees.push({
+
 name:n.value,
+
 password:p.value
+
 });
 
 db.ref("employees").set(employees);
 
-n.value="";
-p.value="";
+n.value = "";
+
+p.value = "";
+
 }
 
-/* REMOVE */
-function remove(name){
+/* EMPLOYEE MANAGE */
 
-employees = employees.filter(e=>
-e.name!==name
-);
+function renderManage(){
 
-requests = requests.filter(r=>
-r.name!==name
-);
+let h = "";
 
-db.ref("employees").set(employees);
-db.ref("requests").set(requests);
-}
-function renderEmp(){
+employees.forEach(e => {
 
-let h="";
+h += `
 
-/* ONLY CURRENT EMPLOYEE */
-let empData = requests.filter(
-r => r.name === current
-);
+<div class="empItem">
 
-/* NEWEST FIRST */
-empData.reverse();
-  empData = empData.slice(0,30);
+${e.name}
 
-empData.forEach(r=>{
+<button
+class="red small"
+onclick="removeEmp('${e.name}')">
 
-h+=`
+Remove
 
-<tr>
+</button>
 
-<td>${r.date}</td>
-
-<td>${r.day}</td>
-
-<td>${r.time}</td>
-
-<td class="${r.status.toLowerCase()}">
-${r.status}
-</td>
-
-</tr>
+</div>
 
 `;
 
 });
 
-document.getElementById("empTable").innerHTML = h;
+document.getElementById("empManage").innerHTML = h;
 
 }
+
+/* REMOVE EMPLOYEE */
+
+function removeEmp(name){
+
+employees = employees.filter(e =>
+e.name !== name
+);
+
+requests = requests.filter(r =>
+r.name !== name
+);
+
+db.ref("employees").set(employees);
+
+db.ref("requests").set(requests);
+
+}
+
+/* PASSWORD BOX */
+
+function showPassBox(){
+
+document.getElementById("passBox")
+.classList.toggle("hidden");
+
+}
+
+/* UPDATE PASSWORD */
+
+function updatePass(){
+
+let emp = employees.find(
+e => e.name === current
+);
+
+let oldP = document.getElementById("oldPass").value;
+
+let newP = document.getElementById("newPass").value;
+
+if(emp.password !== oldP){
+
+alert("Wrong Old Password");
+
+return;
+
+}
+
+if(!newP){
+
+alert("Enter New Password");
+
+return;
+
+}
+
+emp.password = newP;
+
+db.ref("employees").set(employees);
+
+alert("Password Changed Successfully");
+
+document.getElementById("oldPass").value = "";
+
+document.getElementById("newPass").value = "";
+
+}
+
 /* CLEAR TODAY */
+
 function clearToday(){
 
 if(confirm("Clear today's data?")){
 
 let d = getDate();
 
-requests = requests.filter(r=>
-r.date!==d
+requests = requests.filter(r =>
+r.date !== d
 );
 
 db.ref("requests").set(requests);
@@ -721,17 +929,18 @@ db.ref("requests").set(requests);
 }
 
 /* DOWNLOAD CSV */
+
 function download(){
 
 let d = getDate();
 
-let data = requests.filter(r=>
-r.date===d
+let data = requests.filter(r =>
+r.date === d
 );
 
 let csv = "Name,Date,Day,Time,Status\n";
 
-data.forEach(r=>{
+data.forEach(r => {
 
 csv += `${r.name},${r.date},${r.day},${r.time},${r.status}\n`;
 
@@ -750,9 +959,11 @@ a.href = u;
 a.download = "attendance_"+d+".csv";
 
 a.click();
+
 }
 
 /* UTIL */
+
 function getDate(){
 
 let d = new Date();
@@ -776,40 +987,6 @@ return new Date()
 .toLocaleTimeString();
 
 }
-  function changePass(){
-
-let oldPass = prompt("Enter Old Password");
-
-let emp = employees.find(
-e => e.name === current
-);
-
-if(emp.password !== oldPass){
-
-alert("Wrong Old Password");
-
-return;
-
-}
-
-let newPass = prompt("Enter New Password");
-
-if(!newPass){
-
-alert("Password Empty");
-
-return;
-
-}
-
-emp.password = newPass;
-
-/* FIREBASE SAVE */
-db.ref("employees").set(employees);
-
-alert("Password Changed Successfully");
-
-  }
 
 back();
 
