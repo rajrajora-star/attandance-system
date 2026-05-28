@@ -993,67 +993,51 @@ showMsg("Today's Data Cleared");
 
 /* DOWNLOAD CSV */
 
-
 function download(){
 
 let d = getDate();
 
-let data = requests.filter(
-r => r.date === d
-);
+let data = requests.filter(r => r.date === d);
 
-let csv =
-"Name,Date,Day,Time,Status\n";
+let csv = "Name,Date,Day,Time,Status\n";
 
-data.forEach(r => {
-
-csv +=
-`${r.name},${r.date},${r.day},${r.time},${r.status}\n`;
-
+data.forEach(r=>{
+csv += `${r.name},${r.date},${r.day},${r.time},${r.status}\n`;
 });
 
 /* ANDROID APK */
+if(window.Android && Android.saveCsv){
 
-if(window.Android){
-
-showMsg("Excel Downloading...");
+Android.saveCsv(csv, "attendance_" + d + ".csv");
 
 setTimeout(()=>{
+showMsg("Downloading...");
+},100);
 
-Android.saveCsv(
-csv,
-"attendance_" + d + ".csv"
-);
+}
 
-},300);
+/* PC + MOBILE BROWSER */
+else{
 
-}else{
+let blob = new Blob([csv],{type:"text/csv"});
+let url = URL.createObjectURL(blob);
 
-/* PC BROWSER */
-
-let encodedUri =
-"data:text/csv;charset=utf-8," +
-encodeURIComponent(csv);
-
-let a =
-document.createElement("a");
-
-a.href = encodedUri;
-
-a.download =
-"attendance_" + d + ".csv";
+let a = document.createElement("a");
+a.href = url;
+a.download = "attendance_" + d + ".csv";
 
 document.body.appendChild(a);
-
 a.click();
-
 document.body.removeChild(a);
 
-showMsg("Excel Downloaded Successfully");
+URL.revokeObjectURL(url);
+
+showMsg("Excel Downloaded");
 
 }
 
 }
+
   function showMsg(text){
 
 let box =
