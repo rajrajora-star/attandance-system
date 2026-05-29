@@ -715,24 +715,23 @@ document.getElementById("adminLoginBox")
 
 function checkAdmin(){
 
-let p =
-document.getElementById("adminPass").value;
+let p = document.getElementById("adminPass").value.trim();
 
 db.ref("admin/password").once("value")
 .then(snap => {
 
-let realPass = snap.val();
+let realPass = String(snap.val()).trim();
 
 if(p !== realPass){
 
 showMsg("Wrong Password");
-
 return;
 
 }
 
-document.getElementById("adminLoginBox")
-.classList.add("hidden");
+/* LOGIN SUCCESS */
+
+hide();
 
 document.getElementById("admin")
 .classList.remove("hidden");
@@ -740,7 +739,6 @@ document.getElementById("admin")
 document.getElementById("adminPass").value = "";
 
 renderAdmin();
-
 renderManage();
 
 });
