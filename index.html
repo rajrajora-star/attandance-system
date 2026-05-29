@@ -1110,14 +1110,14 @@ weekday:'long'
 
 }
 
+```js
 function getTime(){
 
-return new Date()
-.toLocaleTimeString();
+return new Date().toLocaleTimeString();
 
 }
 
-
+/* EMPLOYEE FORGOT PASSWORD */
 
 function forgotEmpPass(){
 
@@ -1125,12 +1125,24 @@ showMsg("Forgot Password Coming Soon");
 
 }
 
+/* ADMIN FORGOT PASSWORD */
+
 function forgotAdminPass(){
 
 showMsg("Forgot Password Coming Soon");
 
 }
 
+/* SHOW ADMIN PASSWORD BOX */
+
+function showAdminPassBox(){
+
+document.getElementById("adminPassBox")
+.classList.toggle("hidden");
+
+}
+
+/* CHANGE ADMIN PASSWORD */
 
 function changeAdminPass(){
 
@@ -1161,36 +1173,30 @@ return;
 
 }
 
-/* SAVE NEW PASSWORD */
-
 db.ref("admin/password").set(newP);
 
 showMsg("Password Updated");
 
-/* CLEAR */
+/* CLEAR INPUTS */
 
 document.getElementById("oldAdminPass").value = "";
 
 document.getElementById("newAdminPass").value = "";
+
+/* HIDE BOX */
 
 document.getElementById("adminPassBox")
 .classList.add("hidden");
 
 });
 
-
-function forgotAdminPass(){
-
-showMsg("Forgot Password Coming Soon");
-
 }
 
-function showAdminPassBox(){
+/* START APP */
 
-document.getElementById("adminPassBox")
-.classList.toggle("hidden");
-
-}
+back();
+```
+  
 </script>
 
 </body>
