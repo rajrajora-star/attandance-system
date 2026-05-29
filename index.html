@@ -1103,12 +1103,11 @@ return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart
 }
 function getDay(){
 
-return new Date()
-.toLocaleDateString('en-US',{
+return new Date().toLocaleDateString('en-US',{
 weekday:'long'
 });
 
-
+}
 function getTime(){
 
 return new Date().toLocaleTimeString();
