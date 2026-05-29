@@ -1158,7 +1158,8 @@ return;
 db.ref("admin/password").once("value")
 .then(snap => {
 
-let realPass = snap.val();
+let realPass = String(snap.val()).trim();
+oldP = oldP.trim();
 
 if(oldP !== realPass){
 
