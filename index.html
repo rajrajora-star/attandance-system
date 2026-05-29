@@ -264,6 +264,9 @@ placeholder="Password">
 <button onclick="login()">
 Login
 </button>
+<button onclick="forgotEmpPass()">
+Forgot Password?
+</button>
 
 </div>
 
@@ -359,6 +362,34 @@ Clear Today
 
 </div>
 
+<button onclick="showAdminPassBox()">
+Change Password
+</button>
+
+<div id="adminPassBox" class="hidden">
+
+<h3>Update Admin Password</h3>
+
+<input
+type="password"
+id="oldAdminPass"
+placeholder="Enter Old Password">
+
+<input
+type="password"
+id="newAdminPass"
+placeholder="Enter New Password">
+
+<button onclick="changeAdminPass()">
+Update Admin Password
+</button>
+
+<button onclick="forgotAdminPass()">
+Forgot Password?
+</button>
+
+</div>
+
 <h3>Add Employee</h3>
 
 <input id="n" placeholder="Name">
@@ -435,6 +466,7 @@ let current = null;
 let employees = [];
 
 let requests = [];
+let adminPassword = "1234"
 
 /* LIVE SYNC */
 
@@ -481,6 +513,16 @@ hide();
 
 document.getElementById("home")
 .classList.remove("hidden");
+
+/* HIDE PASSWORD BOX */
+document.getElementById("passBox")
+.classList.add("hidden");
+
+/* CLEAR PASSWORD INPUTS */
+document.getElementById("oldPass").value = "";
+document.getElementById("newPass").value = "";
+document.getElementById("pass").value = "";
+document.getElementById("adminPass").value = "";
 
 }
 
@@ -675,9 +717,7 @@ function checkAdmin(){
 let p =
 document.getElementById("adminPass").value;
 
-/* WRONG PASSWORD */
-
-if(p !== "1234"){
+if(p !== adminPassword){
 
 showMsg("Wrong Password");
 
@@ -685,15 +725,11 @@ return;
 
 }
 
-/* LOGIN SUCCESS */
-
 document.getElementById("adminLoginBox")
 .classList.add("hidden");
 
 document.getElementById("admin")
 .classList.remove("hidden");
-
-/* CLEAR PASSWORD */
 
 document.getElementById("adminPass").value = "";
 
@@ -1075,7 +1111,60 @@ return new Date()
 }
 
 back();
+function forgotEmpPass(){
 
+showMsg("Forgot Password Coming Soon");
+
+}
+function changeAdminPass(){
+
+let oldP =
+document.getElementById("oldAdminPass").value;
+
+let newP =
+document.getElementById("newAdminPass").value;
+
+if(oldP !== adminPassword){
+
+showMsg("Wrong Old Password");
+
+return;
+
+}
+
+if(!newP){
+
+showMsg("Enter New Password");
+
+return;
+
+}
+
+adminPassword = newP;
+
+showMsg("Password Updated");
+
+document.getElementById("oldAdminPass").value = "";
+
+document.getElementById("newAdminPass").value = "";
+
+document.getElementById("adminPassBox")
+.classList.add("hidden");
+
+}
+
+function forgotAdminPass(){
+
+showMsg("Forgot Password Coming Soon");
+
+}
+
+function showAdminPassBox(){
+
+document.getElementById("adminPassBox")
+.classList.toggle("hidden");
+
+}
 </script>
 
 </body>
