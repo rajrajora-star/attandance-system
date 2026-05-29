@@ -1101,11 +1101,29 @@ let d = new Date();
 return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`;
 
 }
-
 function getDay(){
 
 return new Date()
-.toLocaleDateString('en-US
+.toLocaleDateString('en-US',{
+weekday:'long'
+});
+
+}
+
+function getTime(){
+
+return new Date()
+.toLocaleTimeString();
+
+}
+
+
+
+function forgotEmpPass(){
+
+showMsg("Forgot Password Coming Soon");
+
+}
 
 function forgotAdminPass(){
 
@@ -1169,7 +1187,7 @@ document.getElementById("adminPassBox")
 
 });
 
-}pp
+
 function forgotAdminPass(){
 
 showMsg("Forgot Password Coming Soon");
